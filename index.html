@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vaishnavi Yanamandra – Interactive Data Engineer Portfolio</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --primary-color:#2563eb;--secondary-color:#06b6d4;--accent-color:#8b5cf6;
+      --text-dark:#1e293b;--text-light:#64748b;--bg-light:#f8fafc;--bg-card:#fff;
+      --gradient-1:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+      --gradient-2:linear-gradient(135deg,#f093fb 0%,#f5576c 100%);
+      --gradient-3:linear-gradient(135deg,#4facfe 0%,#00f2fe 100%);
+      --success-color:#10b981;--warning-color:#f59e0b
+    }
+    body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;line-height:1.6;color:var(--text-dark);background:var(--bg-light);overflow-x:hidden}
+    .container{max-width:1200px;margin:0 auto;padding:0 20px}
+    /* Header */
+    .header{position:fixed;top:0;width:100%;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);z-index:1000;padding:1rem 0;transition:all .3s ease}
+    .nav{display:flex;justify-content:space-between;align-items:center}
+    .logo{font-size:1.5rem;font-weight:700;background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;cursor:pointer}
+    .nav-links{display:flex;list-style:none;gap:2rem}
+    .nav-links a{text-decoration:none;color:var(--text-dark);font-weight:500;transition:color .3s ease;position:relative;cursor:pointer}
+    .nav-links a:hover{color:var(--primary-color)}
+    .nav-links a::after{content:"";position:absolute;bottom:-5px;left:0;width:0;height:2px;background:var(--primary-color);transition:width .3s ease}
+    .nav-links a:hover::after{width:100%}
+    /* Hero */
+    .hero{min-height:100vh;display:flex;align-items:center;background:linear-gradient(135deg,#667eea 0%,#764ba2 50%,#f093fb 100%);color:#fff;position:relative;overflow:hidden}
+    .hero::before{content:"";position:absolute;inset:0;background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><circle cx="200" cy="200" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="800" cy="300" r="1" fill="rgba(255,255,255,0.2)"/><circle cx="300" cy="700" r="1.5" fill="rgba(255,255,255,0.15)"/><circle cx="900" cy="800" r="1" fill="rgba(255,255,255,0.1)"/></svg>') repeat;animation:float 20s ease-in-out infinite}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+    .hero-content{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;z-index:2;position:relative}
+    .hero-text h1{font-size:3.5rem;font-weight:800;margin-bottom:1rem;line-height:1.2}
+    .hero-subtitle{font-size:1.3rem;margin-bottom:2rem;opacity:.9}
+    .hero-description{font-size:1.1rem;margin-bottom:2rem;opacity:.85}
+    .cta-buttons{display:flex;gap:1rem;flex-wrap:wrap}
+    .btn{padding:12px 30px;border:none;border-radius:50px;font-weight:600;text-decoration:none;transition:all .3s ease;cursor:pointer;display:inline-flex;align-items:center;gap:8px;font-size:1rem}
+    .btn-primary{background:#fff;color:var(--primary-color)}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(0,0,0,.2)}
+    .btn-outline{background:transparent;color:#fff;border:2px solid #fff}
+    .btn-outline:hover{background:#fff;color:var(--primary-color)}
+    .btn-secondary{background:var(--secondary-color);color:#fff}
+    .btn-secondary:hover{background:var(--accent-color);transform:translateY(-2px)}
+    .btn-small{padding:8px 20px;font-size:.9rem}
+    .hero-visual{display:flex;justify-content:center;align-items:center}
+    .professional-card{background:rgba(255,255,255,.1);padding:2rem;border-radius:20px;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.2);text-align:center;max-width:300px}
+    .professional-avatar{width:100px;height:100px;background:#fff;border-radius:50%;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:var(--primary-color);font-weight:700}
+    .professional-title{font-size:1.2rem;font-weight:600;margin-bottom:.5rem;opacity:.9}
+    .professional-subtitle{font-size:.9rem;opacity:.75;margin-bottom:1rem}
+    .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
+    .stat-item{text-align:center;padding:.5rem}
+    .stat-number{font-size:1.5rem;font-weight:700;display:block}
+    .stat-label{font-size:.8rem;opacity:.85}
+    /* Generic sections */
+    .section{padding:5rem 0;position:relative}
+    .section-header{text-align:center;margin-bottom:4rem}
+    .section-title{font-size:2.5rem;font-weight:700;margin-bottom:1rem;background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .section-subtitle{font-size:1.1rem;color:var(--text-light);max-width:700px;margin:0 auto}
+    /* Back to top */
+    .back-to-top{position:fixed;bottom:30px;right:30px;width:50px;height:50px;background:var(--primary-color);color:#fff;border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 5px 15px rgba(0,0,0,.2);opacity:0;visibility:hidden;transition:all .3s ease;z-index:1000}
+    .back-to-top.visible{opacity:1;visibility:visible}
+    .back-to-top:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,0,0,.3)}
+    /* About */
+    .about-content{display:grid;grid-template-columns:1fr 2fr;gap:4rem;align-items:center}
+    .profile-card{background:var(--bg-card);padding:2rem;border-radius:20px;box-shadow:0 20px 40px rgba(0,0,0,.1);text-align:center;transform:rotate(-2deg);transition:transform .3s ease}
+    .profile-card:hover{transform:rotate(0) scale(1.05)}
+    .profile-avatar{width:120px;height:120px;background:var(--gradient-2);border-radius:50%;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:3rem;color:#fff}
+    .about-text h3{font-size:1.8rem;margin-bottom:1rem;color:var(--text-dark)}
+    .about-text p{margin-bottom:1.2rem;color:var(--text-light)}
+    .traits{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+    .trait-tag{background:var(--gradient-3);color:#fff;padding:.5rem 1rem;border-radius:25px;font-size:.9rem;font-weight:500}
+    /* Education timeline */
+    .education-timeline{position:relative;max-width:900px;margin:0 auto}
+    .education-timeline::before{content:"";position:absolute;top:0;left:50%;width:3px;height:100%;background:var(--gradient-1);transform:translateX(-50%)}
+    .education-item{position:relative;margin-bottom:3rem;width:50%}
+    .education-item:nth-child(odd){left:0;padding-right:3rem}
+    .education-item:nth-child(even){left:50%;padding-left:3rem}
+    .education-content{background:var(--bg-card);padding:2rem;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,.1);position:relative;cursor:pointer;transition:all .3s ease}
+    .education-content:hover{transform:translateY(-5px);box-shadow:0 20px 40px rgba(0,0,0,.15)}
+    .education-content::before{content:"";position:absolute;top:30px;width:0;height:0;border:15px solid transparent}
+    .education-item:nth-child(odd) .education-content::before{right:-30px;border-left-color:var(--bg-card)}
+    .education-item:nth-child(even) .education-content::before{left:-30px;border-right-color:var(--bg-card)}
+    .education-dot{position:absolute;top:30px;width:20px;height:20px;background:var(--primary-color);border-radius:50%;border:4px solid #fff;box-shadow:0 3px 10px rgba(0,0,0,.2)}
+    .education-item:nth-child(odd) .education-dot{right:-63px}
+    .education-item:nth-child(even) .education-dot{left:-63px}
+    .degree-title{font-size:1.3rem;font-weight:600;color:var(--primary-color);margin-bottom:.5rem}
+    .institution{font-weight:600;color:var(--text-dark);margin-bottom:.3rem}
+    .duration{color:var(--text-light);font-size:.95rem;margin-bottom:.6rem}
+    .gpa{color:var(--success-color);font-weight:700;font-size:1.05rem}
+    /* Skills */
+    .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem}
+    .skill-category{background:var(--bg-card);padding:2rem;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,.1);transition:transform .3s ease;cursor:pointer}
+    .skill-category:hover{transform:translateY(-5px)}
+    .skill-category h3{font-size:1.3rem;margin-bottom:1.2rem;color:var(--primary-color);display:flex;align-items:center;gap:.5rem}
+    .skill-list{display:flex;flex-wrap:wrap;gap:.8rem}
+    .skill-item{background:var(--bg-light);padding:.5rem 1rem;border-radius:20px;font-size:.9rem;color:var(--text-dark);border:2px solid transparent;transition:all .3s ease}
+    .skill-item:hover{border-color:var(--primary-color);background:#fff;transform:scale(1.05)}
+    /* Experience */
+    .experience-grid{display:grid;gap:2rem}
+    .experience-card{background:var(--bg-card);padding:2rem;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,.1);transition:all .3s ease;cursor:pointer;position:relative}
+    .experience-card:hover{transform:translateY(-5px);box-shadow:0 20px 40px rgba(0,0,0,.15)}
+    .job-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}
+    .job-title{font-size:1.4rem;font-weight:600;color:var(--primary-color);margin-bottom:.5rem}
+    .company{font-weight:600;color:var(--text-dark);margin-bottom:.3rem}
+    .view-details-btn{position:absolute;top:2rem;right:2rem}
+    /* Projects */
+    .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:2rem}
+    .project-card{background:var(--bg-card);border-radius:15px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.1);transition:all .3s ease;position:relative;cursor:pointer}
+    .project-card:hover{transform:translateY(-10px);box-shadow:0 20px 40px rgba(0,0,0,.15)}
+    .project-header{height:150px;background:var(--gradient-2);display:flex;align-items:center;justify-content:center;font-size:3rem;color:#fff}
+    .project-content{padding:2rem}
+    .project-title{font-size:1.4rem;font-weight:600;margin-bottom:1rem;color:var(--text-dark)}
+    .project-description{color:var(--text-light);margin-bottom:1.2rem}
+    .project-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
+    .project-tag{background:var(--bg-light);color:var(--primary-color);padding:.3rem .8rem;border-radius:15px;font-size:.8rem;font-weight:500}
+    .project-actions{display:flex;gap:1rem;margin-top:.5rem}
+    /* Achievements */
+    .achievements-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem}
+    .achievement-card{background:var(--bg-card);padding:2rem;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,.1);transition:all .3s ease;cursor:pointer;position:relative;overflow:hidden}
+    .achievement-card::before{content:"";position:absolute;top:0;left:0;width:5px;height:100%;background:var(--gradient-1)}
+    .achievement-card:hover{transform:translateY(-5px);box-shadow:0 20px 40px rgba(0,0,0,.15)}
+    .achievement-icon{font-size:2.2rem;margin-bottom:.8rem}
+    .achievement-title{font-size:1.2rem;font-weight:600;color:var(--primary-color);margin-bottom:.3rem}
+    .achievement-issuer{color:var(--text-dark);font-weight:500;margin-bottom:.3rem}
+    .achievement-date{color:var(--text-light);font-size:.9rem}
+    /* Modal */
+    .modal{display:none;position:fixed;z-index:2000;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,.5);backdrop-filter:blur(5px)}
+    .modal-content{background:var(--bg-card);margin:5% auto;padding:2.2rem;border-radius:15px;width:90%;max-width:880px;max-height:80vh;overflow-y:auto;position:relative;animation:modalFadeIn .25s ease}
+    @keyframes modalFadeIn{from{opacity:0;transform:translateY(-30px)}to{opacity:1;transform:translateY(0)}}
+    .close{position:absolute;right:1.2rem;top:1rem;font-size:2rem;font-weight:700;color:var(--text-light);cursor:pointer;transition:color .2s ease}
+    .close:hover{color:var(--text-dark)}
+    .modal-header{margin-bottom:1.2rem}
+    .modal-title{font-size:1.8rem;font-weight:700;color:var(--primary-color);margin-bottom:.3rem}
+    .modal-subtitle{color:var(--text-light);font-size:1rem}
+    .modal-body{line-height:1.8}
+    .modal-body h3{color:var(--primary-color);margin:1.4rem 0 .8rem;font-size:1.15rem}
+    .modal-body ul{margin-left:1.2rem;margin-bottom:1rem}
+    .modal-body li{margin-bottom:.45rem;color:var(--text-light)}
+    .tech-stack{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0}
+    .tech-item{background:var(--gradient-3);color:#fff;padding:.35rem .9rem;border-radius:20px;font-size:.9rem;font-weight:500}
+    /* Contact */
+    .contact{background:var(--gradient-1);color:#fff}
+    .contact-content{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+    .contact-links{display:flex;gap:1rem;margin:1rem 0 1.6rem}
+    .social-link{width:50px;height:50px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;color:#fff;transition:all .3s ease;backdrop-filter:blur(10px)}
+    .social-link:hover{background:#fff;color:var(--primary-color);transform:translateY(-3px)}
+    .contact-form{background:rgba(255,255,255,.1);padding:2rem;border-radius:15px;backdrop-filter:blur(10px)}
+    .form-group{margin-bottom:1.2rem}
+    .form-group label{display:block;margin-bottom:.4rem;font-weight:600}
+    .form-group input,.form-group textarea{width:100%;padding:.8rem;border:none;border-radius:8px;background:rgba(255,255,255,.2);color:#fff}
+    .form-group input::placeholder,.form-group textarea::placeholder{color:rgba(255,255,255,.7)}
+    /* Footer */
+    .footer{background:var(--text-dark);color:#fff;text-align:center;padding:2rem 0}
+    /* Responsive */
+    @media (max-width:768px){
+      .nav-links{display:none}
+      .hero-content{grid-template-columns:1fr;text-align:center}
+      .hero-text h1{font-size:2.5rem}
+      .about-content{grid-template-columns:1fr;text-align:center}
+      .education-timeline::before{left:20px}
+      .education-item{width:100%;left:0;padding-left:60px;padding-right:0}
+      .education-item .education-dot{left:10px}
+      .education-content::before{left:-15px;border-right-color:var(--bg-card);border-left-color:transparent}
+      .contact-content{grid-template-columns:1fr}
+      .modal-content{margin:10% auto;width:95%}
+      .job-header{flex-direction:column;align-items:flex-start}
+      .view-details-btn{position:static;margin-top:1rem}
+    }
+    /* Animations */
+    .fade-in{opacity:0;transform:translateY(30px);transition:all .6s ease}
+    .fade-in.visible{opacity:1;transform:translateY(0)}
+    .scroll-indicator{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);color:#fff;animation:bounce 2s infinite;cursor:pointer}
+    @keyframes bounce{0%,20%,50%,80%,100%{transform:translateX(-50%) translateY(0)}40%{transform:translateX(-50%) translateY(-10px)}60%{transform:translateX(-50%) translateY(-5px)}}
+  </style>
+</head>
+<body>
+  <!-- Back to Top -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to Top">↑</button>
+
+  <!-- Header -->
+  <header class="header">
+    <nav class="nav container">
+      <div class="logo" onclick="scrollToSection('home')">Vaishnavi Yanamandra Venkata Sai</div>
+      <ul class="nav-links">
+        <li><a onclick="scrollToSection('home')">Home</a></li>
+        <li><a onclick="scrollToSection('about')">About</a></li>
+        <li><a onclick="scrollToSection('education')">Education</a></li>
+        <li><a onclick="scrollToSection('skills')">Skills</a></li>
+        <li><a onclick="scrollToSection('experience')">Experience</a></li>
+        <li><a onclick="scrollToSection('projects')">Projects</a></li>
+        <li><a onclick="scrollToSection('achievements')">Achievements</a></li>
+        <li><a onclick="scrollToSection('contact')">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section id="home" class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1>Hey there! I’m Vaishnavi Yanamandra Venkata Sai — you can call me Vaish.</h1>
+          <p class="hero-subtitle">Data Engineering & Analytics Enthusiast </p>
+          <p class="hero-description">Transforming raw data into powerful insights through scalable cloud solutions. 4+ years of experience building production-grade ETL pipelines and architecting data platforms that drive innovation and business impact.</p>
+          <div class="cta-buttons">
+            <button class="btn btn-primary" onclick="scrollToSection('projects')">View My Work</button>
+            <button class="btn btn-outline" onclick="scrollToSection('contact')">Let's Connect</button>
+            <button class="btn btn-secondary" onclick="scrollToSection('experience')">Experience</button>
+            <button class="btn btn-secondary" onclick="scrollToSection('achievements')">Achievements</button>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="professional-card">
+            <div class="professional-avatar">V</div>
+            <div class="professional-title">Data Engineer</div>
+            <div class="professional-subtitle">AWS • Python • SQL</div>
+            <div class="stats-grid">
+              <div class="stat-item"><span class="stat-number">50+</span><span class="stat-label">Clients</span></div>
+              <div class="stat-item"><span class="stat-number">99%</span><span class="stat-label">Accuracy</span></div>
+              <div class="stat-item"><span class="stat-number">3.90</span><span class="stat-label">GPA</span></div>
+              <div class="stat-item"><span class="stat-number">5+</span><span class="stat-label">Awards & Certifications</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-indicator" onclick="scrollToSection('about')"><div style="font-size:2rem">⬇</div></div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="section">
+    <div class="container">
+      <div class="section-header fade-in">
+        <h2 class="section-title">About Me</h2>
+        <p class="section-subtitle">Curious, growth‑oriented, and passionate about turning complex data challenges into meaningful solutions.</p>
+      </div>
+      <div class="about-content fade-in">
+        <div class="about-image">
+          <div class="profile-card">
+            <div class="profile-avatar">V</div>
+            <h3>Data Engineer</h3>
+            <p>United States</p>
+            <p style="font-size:.9rem;color:var(--text-light)">MS Computer Information Systems<br/>Florida Institute of Technology<br/>GPA: 3.90</p>
+            <button class="btn btn-primary btn-small" onclick="scrollToSection('education')" style="margin-top:1rem">View Education</button>
+          </div>
+        </div>
+        <div class="about-text">
+          <h3>Driven by Innovation & Continuous Growth</h3>
+          <p>I'm driven by solving complex data challenges and turning raw information into meaningful insights that empower decision‑making and innovation. My passion lies in building scalable, cloud‑native data platforms that make a real difference.</p>
+          <p>I thrive in collaborative environments, enjoy taking ownership of impactful projects, and am comfortable taking calculated risks to drive innovation. My work style is analytical, dependable, and proactive.</p>
+          <p>Outside of work, I'm passionate about Carnatic classical music (trained performer), cooking, and collaborative games that spark creativity and connection.</p>
+          <div class="traits">
+            <span class="trait-tag">Curious</span>
+            <span class="trait-tag">Ownership‑driven</span>
+            <span class="trait-tag">Collaborative</span>
+            <span class="trait-tag">Risk‑taker</span>
+            <span class="trait-tag">Music Lover</span>
+            <span class="trait-tag">Creative</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section id="education" class="section" style="background:var(--bg-light)">
+    <div class="container">
+      <div class="section-header fade-in">
+        <h2 class="section-title">Educational Journey</h2>
+        <p class="section-subtitle">Building a strong foundation in computer science and information systems</p>
+      </div>
+      <div class="education-timeline fade-in">
+        <div class="education-item" onclick="showEducationDetails('masters')">
+          <div class="education-content">
+            <div class="education-dot"></div>
+            <div class="degree-title">Master of Science in Computer Information Systems</div>
+            <div class="institution">Florida Institute of Technology, Melbourne, FL</div>
+            <div class="duration">Aug 2023 – Dec 2024</div>
+            <div class="gpa">GPA: 3.90</div>
+            <p style="margin-top:1rem;color:var(--text-light)">Advanced coursework in data systems, cloud computing, and software engineering</p>
+            <button class="btn btn-primary btn-small" style="margin-top:1rem">View Details</button>
+          </div>
+        </div>
+        <div class="education-item" onclick="showEducationDetails('bachelors')">
+          <div class="education-content">
+            <div class="education-dot"></div>
+            <div class="degree-title">Bachelor of Technology in Information Technology</div>
+            <div class="institution">CMR Technical Campus – JNTU, Hyderabad, India</div>
+            <div class="duration">2017 – 2021</div>
+            <div class="gpa">Strong Academic Performance</div>
+            <p style="margin-top:1rem;color:var(--text-light)">Foundation in programming, database systems, and software development</p>
+            <button class="btn btn-primary btn-small" style="margin-top:1rem">View Details</button>
+          </div>
+        </div>
+        <div class="education-item" onclick="showEducationDetails('school')">
+          <div class="education-content">
+            <div class="education-dot"></div>
+            <div class="degree-title">High School Education</div>
+            <div class="institution">Triveni Talent School, Hyderabad, Telangana, India</div>
+            <div class="duration">2015 – 2017</div>
+            <div class="gpa">Excellence in Academics & Arts</div>
+            <p style="margin-top:1rem;color:var(--text-light)">Strong foundation with focus on mathematics and sciences. Active in music and cultural activities</p>
+            <button class="btn btn-primary btn-small" style="margin-top:1rem">View Details</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills" class="section">
+    <div class="container">
+      <div class="section-header fade-in">
+        <h2 class="section-title">Technical Expertise</h2>
+        <p class="section-subtitle">Full‑stack data engineering with cloud‑native technologies and modern development practices</p>
+      </div>
+      <div class="skills-grid fade-in">
+        <div class="skill-category" onclick="showSkillDetails('programming')">
+          <h3>🔧 Programming & Frameworks</h3>
+          <div class="skill-list">
+            <span class="skill-item">Python</span><span class="skill-item">SQL</span><span class="skill-item">Java</span><span class="skill-item">Scala</span><span class="skill-item">R</span><span class="skill-item">PySpark</span><span class="skill-item">Apache Spark</span><span class="skill-item">Hadoop</span>
+          </div>
+        </div>
+        <div class="skill-category" onclick="showSkillDetails('cloud')">
+          <h3>☁️ Cloud Platforms</h3>
+          <div class="skill-list">
+            <span class="skill-item">AWS Glue</span><span class="skill-item">S3</span><span class="skill-item">Lambda</span><span class="skill-item">Redshift</span><span class="skill-item">EMR</span><span class="skill-item">Azure</span><span class="skill-item">Kinesis</span>
+          </div>
+        
+        </div>
+        <div class="skill-category" onclick="showSkillDetails('databases')">
+          <h3>🗃️ Databases & Platforms</h3>
+          <div class="skill-list">
+            <span class="skill-item">Oracle</span><span class="skill-item">Snowflake</span><span class="skill-item">PostgreSQL</span><span class="skill-item">Databricks</span><span class="skill-item">BigQuery</span><span class="skill-item">Hive</span>
+          </div>
+          
+        </div>
+        <div class="skill-category" onclick="showSkillDetails('devops')">
+          <h3>🚀 DevOps & Development</h3>
+          <div class="skill-list">
+            <span class="skill-item">Docker</span><span class="skill-item">Kubernetes</span><span class="skill-item">Terraform</span><span class="skill-item">CI/CD</span><span class="skill-item">Git</span><span class="skill-item">Airflow</span><span class="skill-item">FastAPI</span>
+          </div>
+        </div>
+        <div class="skill-category" onclick="showSkillDetails('analytics')">
+          <h3>📊 Analytics & Visualization</h3>
+          <div class="skill-list">
+            <span class="skill-item">Power BI</span><span class="skill-item">Domo</span><span class="skill-item">MS Excel</span><span class="skill-item">Data Modeling</span><span class="skill-item">ARIMA</span><span class="skill-item">ML Analytics</span>
+          </div>
+          
+        </div>
+        <div class="skill-category" onclick="showSkillDetails('architecture')">
+          <h3>🏗️ Architecture & Design</h3>
+          <div class="skill-list">
+            <span class="skill-item">Microservices</span><span class="skill-item">ETL/ELT</span><span class="skill-item">Data Migration</span><span class="skill-item">System Design</span><span class="skill-item">OOP</span><span class="skill-item">Functional Programming</span>
+          </div>
+        
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section id="experience" class="section" style="background:var(--bg-light)">
+    <div class="container">
+      <div class="section-header fade-in">
+        <h2 class="section-title">Professional Journey</h2>
+        <p class="section-subtitle">Building scalable data solutions and driving innovation across diverse industries</p>
+      </div>
+      <div class="experience-grid fade-in">
+        <div class="experience-card" onclick="showExperienceDetails('sineris')">
+          <div class="job-header">
+            <div>
+              <div class="job-title">Data Engineer</div>
+              <div class="company">Sineris Web Services, Orlando, FL</div>
+              <div class="duration">Mar 2025 – Present</div>
+            </div>
+            <button class="btn btn-primary btn-small view-details-btn">View Details</button>
+          </div>
+          <p style="color:var(--text-light);margin-bottom:1rem">Leading cloud‑native data engineering initiatives with advanced ETL pipelines and microservices architecture.</p>
+          <div class="tech-stack"><span class="project-tag">Python</span><span class="project-tag">AWS Glue</span><span class="project-tag">Docker</span><span class="project-tag">Kubernetes</span><span class="project-tag">FastAPI</span></div>
+        </div>
+        <div class="experience-card" onclick="showExperienceDetails('adp')">
+          <div class="job-header">
+            <div>
+              <div class="job-title">Data Engineer</div>
+              <div class="company">ADP Inc., Hyderabad, India</div>
+              <div class="duration">Feb 2021 – Aug 2023</div>
+            </div>
+            <button class="btn btn-primary btn-small view-details-btn">View Details</button>
+          </div>
+          <p style="color:var(--text-light);margin-bottom:1rem">Led enterprise‑scale data migration projects and built robust data transformation systems for 50+ clients.</p>
+          <div class="tech-stack"><span class="project-tag">Java</span><span class="project-tag">Spark</span><span class="project-tag">AWS</span><span class="project-tag">Oracle</span><span class="project-tag">Terraform</span></div>
+        </div>
+        <div class="experience-card" onclick="showExperienceDetails('epsilon')">
+          <div class="job-header">
+            <div>
+              <div class="job-title">Data Intern</div>
+              <div class="company">Epsilon Pvt Ltd, Hyderabad, India</div>
+              <div class="duration">Jan 2020 – Dec 2020</div>
+            </div>
+            <button class="btn btn-primary btn-small view-details-btn">View Details</button>
+          </div>
+          <p style="color:var(--text-light);margin-bottom:1rem">Developed ETL applications and gained hands‑on experience in data processing and visualization.</p>
+          <div class="tech-stack"><span class="project-tag">SQL</span><span class="project-tag">Python</span><span class="project-tag">Power BI</span><span class="project-tag">ETL</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+<section id="projects" class="section">
+  <div class="container">
+    <div class="section-header fade-in">
+      <h2 class="section-title">Featured Projects</h2>
+      <p class="section-subtitle">Innovative solutions that blend technology, data science, and real-world impact</p>
+    </div>
+    <div class="projects-grid fade-in">
+      <!-- HemoPlus -->
+      <div class="project-card">
+        <div class="project-header">🩸</div>
+        <div class="project-content">
+          <h3 class="project-title">HemoPlus – Blood Donation Network</h3>
+          <p class="project-description">Android application connecting blood donors and recipients, improving accessibility and efficiency in blood donation networks.</p>
+          <div class="project-tags">
+            <span class="project-tag">Android</span>
+            <span class="project-tag">Java</span>
+            <span class="project-tag">Healthcare</span>
+            <span class="project-tag">Social Impact</span>
+          </div>
+          <div class="project-actions">
+            <button class="btn btn-primary btn-small" onclick="showProjectDetails('hemoplus')">View Details</button>
+            <a href="https://github.com/VAISHNAVI549/HemoPlus" target="_blank" class="btn btn-secondary btn-small">GitHub</a>
+          </div>
+        </div>
+      </div>
+      <!-- Real Estate -->
+      <div class="project-card">
+        <div class="project-header">🏠</div>
+        <div class="project-content">
+          <h3 class="project-title">Real Estate Market Intelligence</h3>
+          <p class="project-description">Comprehensive data analysis system processing 20 years of market data with 85% accuracy in sales forecasting.</p>
+          <div class="project-tags">
+            <span class="project-tag">R</span>
+            <span class="project-tag">Python</span>
+            <span class="project-tag">ARIMA</span>
+            <span class="project-tag">Forecasting</span>
+          </div>
+          <div class="project-actions">
+            <button class="btn btn-primary btn-small" onclick="showProjectDetails('realestate')">View Details</button>
+            <a href="https://github.com/VAISHNAVI549" target="_blank" class="btn btn-secondary btn-small">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <!-- Achievements -->
+<section id="achievements" class="section" style="background:var(--bg-light)">
+  <div class="container">
+    <div class="section-header fade-in">
+      <h2 class="section-title">Achievements & Certifications</h2>
+      <p class="section-subtitle">Recognition for excellence in academics, technology, and professional development</p>
+    </div>
+
+    <div class="achievements-grid fade-in">
+
+      <!-- AWS Certified Solutions Architect -->
+      <div class="achievement-card">
+        <div class="achievement-icon">
+          <img src="aws-saa03-badge.png" alt="AWS Certified Solutions Architect Badge" style="width:70px;height:auto;display:block;margin:0 auto;">
+        </div>
+        <div class="achievement-title">
+          <a href="https://www.credly.com/badges/ed9f524d-fd95-4d09-9b43-6eca12736296/public_url" target="_blank" style="text-decoration:none;color:inherit;">
+            AWS Certified Solutions Architect – Associate
+          </a>
+        </div>
+        <div class="achievement-issuer">Amazon Web Services</div>
+        <div class="achievement-date">2024</div>
+        <p style="margin-top:1rem;color:var(--text-light)">
+          Validates expertise in designing and maintaining data engineering solutions on AWS
+        </p>
+      </div>
+
+      <!-- Student of the Year -->
+      <div class="achievement-card">
+        <div class="achievement-icon">🏆</div>
+        <div class="achievement-title">
+          <a href="https://drive.google.com/file/d/1Fl0Z1SxBSFFG9JTg3QAVfRhKa1Q60Ssg/view" target="_blank" style="text-decoration:none;color:inherit;">
+            Student of the Year Award
+          </a>
+        </div>
+        <div class="achievement-issuer">Florida Institute of Technology</div>
+        <div class="achievement-date">2024–2025</div>
+        <p style="margin-top:1rem;color:var(--text-light)">
+          Recognized for outstanding academic performance and leadership
+        </p>
+      </div>
+
+      <!-- NASTRONOMY Award -->
+      <div class="achievement-card">
+        <div class="achievement-icon">🌟</div>
+        <div class="achievement-title">NASTRONOMY Emerging Force Award</div>
+        <div class="achievement-issuer">ADP Inc.</div>
+        <div class="achievement-date">2023</div>
+        <p style="margin-top:1rem;color:var(--text-light)">
+          Recognized for innovative contributions and emerging leadership
+        </p>
+      </div>
+
+      <!-- Google Data Analytics Capstone -->
+      <div class="achievement-card">
+        <div class="achievement-icon">📊</div>
+        <div class="achievement-title">
+          <a href="https://drive.google.com/file/d/15-xQO3HBmiG6WYfH3RLWN10Upw_D4voD/view" target="_blank" style="text-decoration:none;color:inherit;">
+            Google Data Analytics Capstone
+          </a>
+        </div>
+        <div class="achievement-issuer">Google</div>
+        <div class="achievement-date">2023</div>
+        <p style="margin-top:1rem;color:var(--text-light)">
+          Completed comprehensive data analytics program with capstone project
+        </p>
+      </div>
+
+      <!-- Getting Started with Data Analytics on AWS -->
+      <div class="achievement-card">
+        <div class="achievement-icon">📈</div>
+        <div class="achievement-title">
+          <a href="https://drive.google.com/file/d/11RRvt86hN8hcC-8gXxGTbhx949jYF58r/view" target="_blank" style="text-decoration:none;color:inherit;">
+            Getting Started with Data Analytics on AWS
+          </a>
+        </div>
+        <div class="achievement-issuer">Amazon Web Services</div>
+        <div class="achievement-date">2024</div>
+        <p style="margin-top:1rem;color:var(--text-light)">
+          AWS data analytics fundamentals and cloud-based analytics solutions
+        </p>
+      </div>
+
+      <!-- Programming for Everybody (Python) -->
+      <div class="achievement-card">
+        <div class="achievement-icon">🐍</div>
+        <div class="achievement-title">
+          <a href="https://drive.google.com/file/d/1Dzv1vZdN-n7zBE3ZSud4sTbJ8kRVgJuZ/view" target="_blank" style="text-decoration:none;color:inherit;">
+            Programming for Everybody (Getting Started with Python)
+          </a>
+        </div>
+        <div class="achievement-issuer">University of Michigan</div>
+        <div class="achievement-date">2022</div>
+        <p style="margin-top:1rem;color:var(--text-light)">
+          Foundational Python programming certification
+        </p>
+      </div>
+
+      <!-- Pre Education Program (EPAM) -->
+      <div class="achievement-card">
+        <div class="achievement-icon">💻</div>
+        <div class="achievement-title">
+          <a href="https://drive.google.com/file/d/1SZkkvKP-WtWt63G8VCdMKRBE0OBxKfBN/view" target="_blank" style="text-decoration:none;color:inherit;">
+            Pre Education Program (PEP-2020)
+          </a>
+        </div>
+        <div class="achievement-issuer">EPAM Systems India Pvt Ltd</div>
+        <div class="achievement-date">2020</div>
+        <p style="margin-top:1rem;color:var(--text-light)">
+          Specialized training in software development practices
+        </p>
+      </div>
+
+      <!-- JavaScript Certificate -->
+      <div class="achievement-card">
+        <div class="achievement-icon">🖥️</div>
+        <div class="achievement-title">
+          <a href="https://drive.google.com/file/d/1ug3Shy-oGcxjVQjTDNKajylm1BAIMQv1/view" target="_blank" style="text-decoration:none;color:inherit;">
+            JavaScript Programming Certificate
+          </a>
+        </div>
+        <div class="achievement-issuer">—</div>
+        <div class="achievement-date">2022</div>
+        <p style="margin-top:1rem;color:var(--text-light)">
+          Completed professional training in modern JavaScript
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+  <!-- Aspirations -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header fade-in">
+        <h2 class="section-title">Future Aspirations</h2>
+        <p class="section-subtitle">Shaping the future of data architecture and empowering organizations through strategic innovation</p>
+      </div>
+      <div class="about-content fade-in">
+        <div class="about-text">
+          <h3>Career Vision</h3>
+          <p>I aspire to grow as a <strong>Data Engineer / Analytics Engineer</strong>, designing scalable, cloud‑native data platforms that empower data‑driven decision‑making and innovation. My long‑term goal is to become a <strong>data architecture and strategy leader</strong>, shaping how organizations manage and leverage data to drive business impact.</p>
+          <h3>Industries of Interest</h3>
+          <ul style="list-style:none;padding-left:0">
+            <li>🚀 <strong>Take Full Ownership</strong> of complex data engineering projects, from conception to production</li>
+            <li>💡 <strong>Lead Innovation</strong> in fast‑growing companies with significant technological challenges</li>
+            <li>🤝 <strong>Collaborate with Talented Teams</strong> across engineering, data science, and product</li>
+            <li>📈 <strong>Drive Business Impact</strong> through scalable data solutions</li>
+            <li>🌱 <strong>Continuous Learning</strong> with cutting‑edge technologies</li>
+          </ul>
+          <h3>Roles I'm Seeking</h3>
+          <div class="traits"><span class="trait-tag">Data Engineer</span><span class="trait-tag">Data Analyst</span><span class="trait-tag">Data Scientist</span><span class="trait-tag">Cloud Engineer</span><span class="trait-tag">Software Engineer</span><span class="trait-tag">Database Administrator</span></div>
+        </div>
+        <div class="about-image">
+          <div class="profile-card">
+            <div class="profile-avatar">🚀</div>
+            <h3>Innovation Catalyst</h3>
+            <p>Building Tomorrow's Data Solutions</p>
+            <div style="text-align:left;margin-top:1rem">
+              <p><strong>Key Achievements:</strong></p>
+              <p>🏆 Student of the Year Award (2024–2025)</p>
+              <p>🌟 NASTRONOMY Emerging Force Award</p>
+              <p>☁️ AWS Certified Data Engineer</p>
+              <p>🎵 Carnatic Classical Music Performer</p>
+            </div>
+            <button class="btn btn-primary btn-small" onclick="scrollToSection('achievements')" style="margin-top:1rem">View All Achievements</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="section contact">
+    <div class="container">
+      <div class="contact-content fade-in">
+        <div class="contact-info">
+          <h3>Let's Build Something Amazing Together</h3>
+          <p>Ready to collaborate on innovative data solutions? I'm always excited to discuss new opportunities, share insights about data engineering, or explore how we can drive business impact through scalable data platforms.</p>
+          <div class="contact-links">
+            <a href="https://www.linkedin.com/in/vaishnavi-yanamandra-venkata-sai-66410a152/" target="_blank" class="social-link" title="LinkedIn">💼</a>
+            <a href="https://github.com/VAISHNAVI549" target="_blank" class="social-link" title="GitHub">💻</a>
+            <a href="#" onclick="showContactDetails()" class="social-link" title="Contact Details">📞</a>
+          </div>
+          <p style="font-size:.9rem;opacity:.85">📍 Based in the United States<br/>🌐 Open to remote and hybrid opportunities<br/>💡 Passionate about data, music, and continuous learning</p>
+        </div>
+        <div class="contact-form">
+          <h4 style="margin-bottom:1.2rem">Get In Touch</h4>
+          <form id="contactForm">
+            <div class="form-group"><label for="name">Name</label><input type="text" id="name" name="name" placeholder="Your Name" required /></div>
+            <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" placeholder="your.email@example.com" required /></div>
+            <div class="form-group"><label for="subject">Subject</label><input type="text" id="subject" name="subject" placeholder="Let's discuss..." required /></div>
+            <div class="form-group"><label for="message">Message</label><textarea id="message" name="message" rows="5" placeholder="Tell me about your project or opportunity..." required></textarea></div>
+            <button type="submit" class="btn btn-primary" style="width:100%">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>© 2025 Vaishnavi Yanamandra. Crafted with passion for data and innovation.</p>
+      <p style="font-size:.9rem;margin-top:.5rem;opacity:.8">Building scalable data solutions • Driving business impact • Continuous learner</p>
+    </div>
+  </footer>
+
+  <!-- Modal (single, global) -->
+  <div id="detailModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()" aria-label="Close">&times;</span>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    // Smooth scroll
+    function scrollToSection(sectionId){const section=document.getElementById(sectionId);if(section){section.scrollIntoView({behavior:'smooth',block:'start'});}}
+
+    // Modal helpers
+    function openModal(){document.getElementById('detailModal').style.display='block';document.body.style.overflow='hidden';}
+    function closeModal(){document.getElementById('detailModal').style.display='none';document.body.style.overflow='auto';}
+
+    // Contact details (uses user's preferred email from memory)
+    function showContactDetails(){const modalBody=document.getElementById('modalBody');modalBody.innerHTML=`
+      <div class="modal-header">
+        <h2 id="modalTitle" class="modal-title">Contact Information</h2>
+        <p class="modal-subtitle">Let's connect and discuss opportunities</p>
+      </div>
+      <div class="modal-body">
+        <h3>Professional Contact</h3>
+        <p><strong>📧 Email:</strong> <a href="mailto:vyanamandrav2023@my.fit.edu">vyanamandrav2023@my.fit.edu</a></p>
+        <p><strong>💼 LinkedIn:</strong> <a href="https://www.linkedin.com/in/vaishnavi-yanamandra-66410a152/" target="_blank">vaishnavi-yanamandra</a></p>
+        <p><strong>💻 GitHub:</strong> <a href="https://github.com/VAISHNAVI549" target="_blank">VAISHNAVI549</a></p>
+        <h3>Location & Availability</h3>
+        <p><strong>📍 Current Location:</strong> United States</p>
+        <p><strong>🌐 Work Preference:</strong> Open to remote, hybrid, and on-site opportunities</p>
+        <p><strong>⏰ Timezone:</strong> Eastern Time (ET)</p>
+        <h3>Best Ways to Reach Me</h3>
+        <ul>
+          <li><strong>For Professional Opportunities:</strong> LinkedIn or Email</li>
+          <li><strong>For Technical Discussions:</strong> GitHub or Email</li>
+          <li><strong>For Quick Questions:</strong> LinkedIn messaging</li>
+        </ul>
+      </div>`;openModal();}
+
+    // Education details
+    function showEducationDetails(level){const modalBody=document.getElementById('modalBody');let content='';switch(level){
+      case 'masters':content=`
+        <div class="modal-header">
+          <h2 class="modal-title">Master of Science in Computer Information Systems</h2>
+          <p class="modal-subtitle">Florida Institute of Technology, Melbourne, FL | Aug 2023 – Dec 2024</p>
+        </div>
+        <div class="modal-body">
+          <div class="gpa" style="font-size:1.1rem;margin-bottom:1rem">🎓 GPA: 3.90/4.0</div>
+          <h3>Key Coursework</h3>
+          <ul><li>Advanced Database Systems & Data Warehousing</li><li>Cloud Computing & Distributed Systems</li><li>Software Engineering & System Design</li><li>Data Mining & Analytics</li><li>Machine Learning Applications</li><li>Enterprise Architecture & Integration</li></ul>
+          <h3>Major Projects</h3>
+          <ul><li><strong>Real Estate Market Intelligence:</strong> 20‑year data analysis with ARIMA forecasting</li><li><strong>Cloud Data Pipeline:</strong> AWS‑based ETL system for academic research</li><li><strong>ML Model Deployment:</strong> End‑to‑end machine learning pipeline</li></ul>
+          <h3>Achievements</h3>
+          <ul><li>🏆 Student of the Year Award (2024–2025)</li><li>📚 Dean's List multiple semesters</li><li>🤝 Active in tech student organizations</li></ul>
+          <div class="tech-stack"><span class="tech-item">Data Systems</span><span class="tech-item">Cloud Computing</span><span class="tech-item">Software Engineering</span><span class="tech-item">Analytics</span></div>
+        </div>`;break;
+      case 'bachelors':content=`
+        <div class="modal-header">
+          <h2 class="modal-title">Bachelor of Technology in Information Technology</h2>
+          <p class="modal-subtitle">CMR Technical Campus – JNTU, Hyderabad, India | 2017 – 2021</p>
+        </div>
+        <div class="modal-body">
+          <h3>Core Subjects</h3>
+          <ul><li>Programming Fundamentals (C, C++, Java, Python)</li><li>Database Management Systems (DBMS)</li><li>Software Engineering & Project Management</li><li>Computer Networks & Communication</li><li>Operating Systems</li><li>Web Technologies & Development</li><li>Data Structures & Algorithms</li><li>Mathematics & Statistics</li><li>Computer Hardware (Basic Architecture)</li><li>Front‑end Development Technologies</li></ul>
+          <h3>Key Projects</h3>
+          <ul><li><strong>Student Management System:</strong> Full‑stack web application</li><li><strong>Mobile App Development:</strong> Android application for campus services</li><li><strong>Database Design Project:</strong> Comprehensive DBMS implementation</li></ul>
+          <h3>Extracurricular Activities</h3>
+          <ul><li>🎵 Cultural committee member – organized music performances</li><li>🏆 Coding competitions and hackathons</li><li>📚 Technical society member – workshops</li></ul>
+          <div class="tech-stack"><span class="tech-item">C/C++</span><span class="tech-item">Java</span><span class="tech-item">Python</span><span class="tech-item">DBMS</span><span class="tech-item">Web Development</span><span class="tech-item">Operating Systems</span></div>
+        </div>`;break;
+      case 'school':content=`
+        <div class="modal-header">
+          <h2 class="modal-title">High School Education</h2>
+          <p class="modal-subtitle">Triveni Talent School, Hyderabad, Telangana, India | 2015 – 2017</p>
+        </div>
+        <div class="modal-body">
+          <h3>Academic Focus</h3>
+          <ul><li><strong>Mathematics:</strong> Advanced calculus and statistics</li><li><strong>Physics:</strong> Electronics and CS fundamentals</li><li><strong>Chemistry:</strong> Analytical and computational chemistry</li><li><strong>Computer Science:</strong> Programming basics and logic</li></ul>
+          <h3>Achievements & Activities</h3>
+          <ul><li>🎵 Carnatic Classical Music performer</li><li>🏆 Academic excellence in math & science</li><li>🎭 Debates, hosting, cultural programs</li></ul>
+          <h3>Leadership & Skills Developed</h3>
+          <ul><li>Event hosting and public speaking</li><li>Team collaboration</li><li>Creative problem‑solving</li></ul>
+          <div class="tech-stack"><span class="tech-item">Mathematics</span><span class="tech-item">Science</span><span class="tech-item">Music</span><span class="tech-item">Leadership</span></div>
+        </div>`;break;}
+      modalBody.innerHTML=content;openModal();}
+
+    // Experience details
+    function showExperienceDetails(company){const modalBody=document.getElementById('modalBody');let content='';switch(company){
+      case 'sineris':content=`
+        <div class="modal-header"><h2 class="modal-title">Data Engineer – Sineris Web Services</h2><p class="modal-subtitle">Orlando, FL | Mar 2025 – Present</p></div>
+        <div class="modal-body">
+          <h3>Key Responsibilities</h3>
+          <ul><li>Developed scalable components in Python (OOP)</li><li>Engineered cloud‑native ETL with AWS Glue, Lambda, S3, Airflow</li><li>Applied distributed programming for large‑scale processing</li></ul>
+          <h3>Technical Achievements</h3>
+          <ul><li>Containerized microservices with FastAPI, Docker, Kubernetes</li><li>Integrated CI/CD pipelines</li><li>Integrated predictive analytics into production</li></ul>
+          <h3>Impact & Results</h3>
+          <ul><li>Improved reliability and performance</li><li>Enhanced software quality and accuracy</li><li>Streamlined deployments via CI/CD</li></ul>
+          <div class="tech-stack"><span class="tech-item">Python</span><span class="tech-item">AWS Glue</span><span class="tech-item">Lambda</span><span class="tech-item">S3</span><span class="tech-item">Airflow</span><span class="tech-item">FastAPI</span><span class="tech-item">Docker</span><span class="tech-item">Kubernetes</span></div>
+        </div>`;break;
+      case 'adp':content=`
+        <div class="modal-header"><h2 class="modal-title">Data Engineer – ADP Inc.</h2><p class="modal-subtitle">Hyderabad, India | Feb 2021 – Aug 2023</p></div>
+        <div class="modal-body">
+          <h3>Key Responsibilities</h3>
+          <ul><li>Led migration of payroll/HR data systems</li><li>Moved on‑prem Oracle to AWS using Java (OOP)</li><li>Built transformation apps for multi‑TB datasets</li></ul>
+          <h3>Technical Achievements</h3>
+          <ul><li>Used S3, Glue, Redshift, EMR, Kinesis</li><li>Automation tools and migration frameworks</li><li>Infra as code with Terraform</li></ul>
+          <h3>Impact & Results</h3>
+          <ul><li>Reduced timelines by 20%</li><li>Maintained 99% accuracy across 50+ clients</li><li>Implemented robust error handling & security</li></ul>
+          <div class="tech-stack"><span class="tech-item">Java</span><span class="tech-item">SQL</span><span class="tech-item">Python</span><span class="tech-item">Spark</span><span class="tech-item">AWS</span><span class="tech-item">Oracle</span><span class="tech-item">Terraform</span></div>
+        </div>`;break;
+      case 'epsilon':content=`
+        <div class="modal-header"><h2 class="modal-title">Data Intern – Epsilon Pvt Ltd</h2><p class="modal-subtitle">Hyderabad, India | Jan 2020 – Dec 2020</p></div>
+        <div class="modal-body">
+          <h3>Key Responsibilities</h3>
+          <ul><li>Built SQL/Python‑based ETL apps</li><li>Implemented OOP and data quality checks</li><li>Contributed across SDLC</li></ul>
+          <h3>Projects & Contributions</h3>
+          <ul><li>Dashboard connectivity & KPI reporting</li><li>Reusable components for visualization</li><li>Worked with marketing data quality</li></ul>
+          <div class="tech-stack"><span class="tech-item">SQL</span><span class="tech-item">Python</span><span class="tech-item">ETL</span><span class="tech-item">Power BI</span></div>
+        </div>`;break;}
+      modalBody.innerHTML=content;openModal();}
+
+    // Project details
+    function showProjectDetails(project){const modalBody=document.getElementById('modalBody');let content='';switch(project){
+      case 'hemoplus':content=`
+        <div class="modal-header"><h2 class="modal-title">HemoPlus – Blood Donation Network</h2><p class="modal-subtitle">Android Development Project | 2023</p></div>
+        <div class="modal-body">
+          <h3>Overview</h3>
+          <p>Comprehensive Android app bridging donors and recipients with real‑time matching and location services.</p>
+          <h3>Key Features</h3>
+          <ul><li>Real‑time donor‑recipient matching</li><li>Emergency alerts</li><li>GPS for nearest centers</li><li>Donor management</li><li>Hospital integrations</li></ul>
+          <h3>Implementation</h3>
+          <ul><li>Android + Material Design</li><li>Backend APIs for users/matching</li><li>Realtime DB and notifications</li><li>Google Maps API</li><li>Firebase auth & messaging</li></ul>
+          <div class="tech-stack"><span class="tech-item">Java</span><span class="tech-item">Android SDK</span><span class="tech-item">Firebase</span><span class="tech-item">Google Maps API</span><span class="tech-item">SQLite</span><span class="tech-item">REST</span></div>
+        </div>`;break;
+      case 'realestate':content=`
+        <div class="modal-header"><h2 class="modal-title">Real Estate Market Intelligence</h2><p class="modal-subtitle">Data Science Project | 2024</p></div>
+        <div class="modal-body">
+          <h3>Overview</h3>
+          <p>Processes 20 years of real estate data for insights and forecasting.</p>
+          <h3>Features</h3>
+          <ul><li>Historical analysis</li><li>ARIMA forecasting (~85% accuracy)</li><li>Interactive dashboards</li><li>Segmentation by region/type/price</li></ul>
+          <h3>Tech</h3>
+          <ul><li>R & Python</li><li>ARIMA time series</li><li>SQL storage</li><li>Automated pipelines with error handling</li><li>Matplotlib/Plotly visuals</li></ul>
+          <div class="tech-stack"><span class="tech-item">R</span><span class="tech-item">Python</span><span class="tech-item">SQL</span><span class="tech-item">ARIMA</span><span class="tech-item">Pandas</span><span class="tech-item">Matplotlib</span><span class="tech-item">Plotly</span></div>
+        </div>`;break;}
+      modalBody.innerHTML=content;openModal();}
+
+    // Achievement details + certificate links
+    function showAchievementDetails(achievement){const modalBody=document.getElementById('modalBody');let content='';switch(achievement){
+      case 'aws':content=`
+        <div class="modal-header"><h2 class="modal-title">AWS Certified Data Engineer</h2><p class="modal-subtitle">Amazon Web Services | 2024</p></div>
+        <div class="modal-body">
+          <h3>Overview</h3><p>This certification validates comprehensive understanding of core AWS services and the ability to design, build, secure, and maintain analytics solutions on AWS.</p>
+          <h3>Skills Validated</h3><ul><li>Designing and implementing data pipelines</li><li>Managing data lifecycle and data storage solutions (S3, Redshift, DynamoDB)</li><li>Automating data processing with services like Glue and Lambda</li><li>Ensuring data security and compliance</li><li>Monitoring and optimizing data platforms</li></ul>
+        </div>`;break;
+      case 'student':content=`
+        <div class="modal-header"><h2 class="modal-title">Student of the Year Award</h2><p class="modal-subtitle">Florida Institute of Technology | 2024–2025</p></div>
+        <div class="modal-body">
+          <h3>Recognition</h3><p>Awarded for outstanding academic excellence, leadership within the university community, and significant contributions to student life and research projects.</p>
+          <h3>Criteria</h3><ul><li>Maintaining a high GPA (3.90/4.0)</li><li>Active leadership roles in student organizations</li><li>Positive impact on the campus community</li><li>Contributions to academic research and projects</li></ul>
+        </div>`;break;
+      case 'nastronomy':content=`
+        <div class="modal-header"><h2 class="modal-title">NASTRONOMY Emerging Force Award</h2><p class="modal-subtitle">ADP Inc. | 2023</p></div>
+        <div class="modal-body">
+          <h3>Recognition</h3><p>Awarded to high-potential employees who demonstrate exceptional innovation, leadership, and a strong commitment to driving results. Recognized for contributions to the enterprise data migration projects.</p>
+          <h3>Achievements</h3><ul><li>Developing innovative solutions to complex data transformation challenges.</li><li>Proactively identifying and resolving critical project roadblocks.</li><li>Mentoring junior team members and fostering a collaborative environment.</li></ul>
+        </div>`;break;
+      case 'google':content=`
+        <div class="modal-header"><h2 class="modal-title">Google Data Analytics Capstone</h2><p class="modal-subtitle">Google | 2023</p></div>
+        <div class="modal-body">
+          <h3>Overview</h3><p>A comprehensive program covering the entire data analysis lifecycle, from data collection and cleaning to analysis, visualization, and reporting. The capstone project involved a real-world dataset to demonstrate practical skills.</p>
+          <h3>Skills Validated</h3><ul><li>Data cleaning and preparation (SQL, Spreadsheets)</li><li>Data analysis and visualization (R, Tableau)</li><li>Asking effective questions and defining metrics</li><li>Communicating insights through storytelling</li></ul>
+        </div>`;break;
+      case 'aws_analytics':content=`
+        <div class="modal-header"><h2 class="modal-title">Getting Started with Data Analytics on AWS</h2><p class="modal-subtitle">Amazon Web Services | 2024</p></div>
+        <div class="modal-body">
+          <h3>Overview</h3><p>An introductory certification covering the fundamentals of data analytics services on AWS, including data ingestion, storage, processing, and visualization.</p>
+          <h3>Skills Validated</h3><ul><li>Understanding of the AWS data analytics portfolio (Kinesis, S3, Redshift, QuickSight).</li><li>Building a basic data analytics pipeline on AWS.</li><li>Choosing appropriate services for different data analytics needs.</li></ul>
+        </div>`;break;
+      case 'python':content=`
+        <div class="modal-header"><h2 class="modal-title">Programming for Everybody (Getting Started with Python)</h2><p class="modal-subtitle">University of Michigan (Coursera) | 2022</p></div>
+        <div class="modal-body">
+          <h3>Overview</h3><p>A foundational course on Python programming, covering core concepts such as variables, conditional execution, functions, loops, and data structures.</p>
+          <h3>Skills Validated</h3><ul><li>Core Python 3 programming concepts.</li><li>Writing functions and using loops.</li><li>Working with fundamental data structures like strings, lists, and dictionaries.</li><li>Problem-solving with code.</li></ul>
+        </div>`;break;
+      case 'epam':content=`
+        <div class="modal-header"><h2 class="modal-title">Pre Education Program (PEP-2020)</h2><p class="modal-subtitle">EPAM Systems India Pvt Ltd | 2020</p></div>
+        <div class="modal-body">
+          <h3>Overview</h3><p>An intensive, industry-focused training program designed to bridge the gap between academic knowledge and professional software development practices.</p>
+          <h3>Topics Covered</h3><ul><li>Agile and Scrum methodologies</li><li>Version control with Git</li><li>Advanced Java programming concepts</li><li>Software testing and quality assurance</li><li>Introduction to DevOps and CI/CD</li></ul>
+        </div>`;break;}
+      modalBody.innerHTML=content;openModal();}
+      
+      document.addEventListener('DOMContentLoaded', () => {
+        // Fade-in animations on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Back to top button visibility
+        const backToTopButton = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+        backToTopButton.addEventListener('click', () => scrollToSection('home'));
+
+        // Contact form submission
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for your message! I will get back to you shortly.');
+            contactForm.reset();
+        });
+
+        // Modal closing logic
+        const modal = document.getElementById('detailModal');
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        window.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && modal.style.display === 'block') {
+                closeModal();
+            }
+        });
+    });
+  </script>
+</body>
+</html>
+
