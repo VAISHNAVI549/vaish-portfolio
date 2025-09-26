@@ -630,69 +630,171 @@
     </div>
   </section>
 
-  <!-- Contact -->
-  <section id="contact" class="section contact">
-    <div class="container">
-      <div class="contact-content fade-in">
-        <div class="contact-info">
-          <h3>Let's Build Something Amazing Together</h3>
-          <p>Ready to collaborate on innovative data solutions? I'm always excited to discuss new opportunities, share insights about data engineering, or explore how we can drive business impact through scalable data platforms.</p>
-          <div class="contact-links">
-            <a href="https://www.linkedin.com/in/vaishnavi-yanamandra-venkata-sai-66410a152/" target="_blank" class="social-link" title="LinkedIn">💼</a>
-            <a href="https://github.com/VAISHNAVI549" target="_blank" class="social-link" title="GitHub">💻</a>
-            <a href="#" onclick="showContactDetails()" class="social-link" title="Contact Details">📞</a>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<!-- Contact -->
+<section id="contact" class="section contact">
+  <div class="container">
+    <div class="contact-content fade-in">
+
+      <!-- Left side: Info -->
+      <div class="contact-info">
+        <h3>Let's Build Something Amazing Together</h3>
+        <p>
+          Ready to collaborate on innovative data solutions? I'm always excited to discuss new opportunities,
+          share insights about data engineering, or explore how we can drive business impact through scalable data platforms.
+        </p>
+
+        <!-- Social Links -->
+        <div class="contact-links">
+          <a href="https://www.linkedin.com/in/vaishnavi-yanamandra-66410a152/"
+             target="_blank" rel="noopener noreferrer" class="social-link" title="LinkedIn" aria-label="LinkedIn">
+            <i class="fab fa-linkedin" aria-hidden="true"></i>
+          </a>
+          <a href="https://github.com/VAISHNAVI549"
+             target="_blank" rel="noopener noreferrer" class="social-link" title="GitHub" aria-label="GitHub">
+            <i class="fab fa-github" aria-hidden="true"></i>
+          </a>
+          <a href="#" class="social-link" title="Contact Details" aria-label="Contact details" onclick="showContactDetails(); return false;">
+            <i class="fas fa-phone" aria-hidden="true"></i>
+          </a>
+        </div>
+
+        <p style="font-size:.9rem;opacity:.85">
+          📍 Based in the United States<br/>
+          🌐 Open to remote and hybrid opportunities<br/>
+          💡 Passionate about data, music, and continuous learning
+        </p>
+      </div>
+
+      <!-- Right side: Form -->
+      <div class="contact-form">
+        <h4 style="margin-bottom:1.2rem">Get In Touch</h4>
+
+        <form id="contactForm" novalidate>
+          <div class="form-group">
+            <label for="name">Name<span aria-hidden="true">*</span></label>
+            <input type="text" id="name" name="name" placeholder="Your Name" required aria-required="true"/>
           </div>
-          <p style="font-size:.9rem;opacity:.85">📍 Based in the United States<br/>🌐 Open to remote and hybrid opportunities<br/>💡 Passionate about data, music, and continuous learning</p>
-        </div>
-        <div class="contact-form">
-          <h4 style="margin-bottom:1.2rem">Get In Touch</h4>
-          <form id="contactForm">
-            <div class="form-group"><label for="name">Name</label><input type="text" id="name" name="name" placeholder="Your Name" required /></div>
-            <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" placeholder="your.email@example.com" required /></div>
-            <div class="form-group"><label for="subject">Subject</label><input type="text" id="subject" name="subject" placeholder="Let's discuss..." required /></div>
-            <div class="form-group"><label for="message">Message</label><textarea id="message" name="message" rows="5" placeholder="Tell me about your project or opportunity..." required></textarea></div>
-            <button type="submit" class="btn btn-primary" style="width:100%">Send Message</button>
-          </form>
-        </div>
+
+          <div class="form-group">
+            <label for="email">Email<span aria-hidden="true">*</span></label>
+            <input type="email" id="email" name="email" placeholder="your.email@example.com" required aria-required="true"/>
+          </div>
+
+          <div class="form-group">
+            <label for="subject">Subject<span aria-hidden="true">*</span></label>
+            <input type="text" id="subject" name="subject" placeholder="Let's discuss..." required aria-required="true"/>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message<span aria-hidden="true">*</span></label>
+            <textarea id="message" name="message" rows="5" placeholder="Tell me about your project or opportunity..." required aria-required="true"></textarea>
+          </div>
+
+          <!-- Honeypot (spam protection) -->
+          <input type="text" name="botcheck" id="botcheck" autocomplete="off" tabindex="-1" style="position:absolute;left:-9999px;opacity:0" aria-hidden="true">
+
+          <!-- Optional subject line -->
+          <input type="hidden" name="_subject" value="New message from Vaishnavi's portfolio" />
+
+          <button type="submit" class="btn btn-primary" style="width:100%">Send Message</button>
+          <p id="formStatus" style="margin-top:.75rem;font-size:.95rem;"></p>
+        </form>
       </div>
     </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <p>© 2025 Vaishnavi Yanamandra. Crafted with passion for data and innovation.</p>
-      <p style="font-size:.9rem;margin-top:.5rem;opacity:.8">Building scalable data solutions • Driving business impact • Continuous learner</p>
-    </div>
-  </footer>
-
-  <!-- Modal (single, global) -->
-  <div id="detailModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal()" aria-label="Close">&times;</span>
-      <div id="modalBody"></div>
-    </div>
   </div>
+</section>
 
-  <script>
-    // Smooth scroll
-    function scrollToSection(sectionId){const section=document.getElementById(sectionId);if(section){section.scrollIntoView({behavior:'smooth',block:'start'});}}
+<!-- Minimal Modal (required by showContactDetails) -->
+<div id="detailModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;">
+  <div role="dialog" aria-modal="true" aria-labelledby="modalTitle"
+       style="background:#fff;max-width:720px;margin:6vh auto;padding:1.25rem;border-radius:12px;max-height:88vh;overflow:auto;">
+    <button onclick="closeModal()" aria-label="Close"
+            style="border:none;background:transparent;font-size:1.5rem;position:absolute;right:1rem;top:1rem;cursor:pointer;">×</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
 
-    // Modal helpers
-    function openModal(){document.getElementById('detailModal').style.display='block';document.body.style.overflow='hidden';}
-    function closeModal(){document.getElementById('detailModal').style.display='none';document.body.style.overflow='auto';}
+<!-- Back to top (used by scroll script) -->
+<button id="backToTop" title="Back to top" aria-label="Back to top"
+        style="position:fixed;right:1rem;bottom:1rem;display:none;padding:.6rem .8rem;border:none;border-radius:999px;box-shadow:0 6px 20px rgba(0,0,0,.15);cursor:pointer;">
+  ↑
+</button>
 
-    // Contact details (uses user's preferred email from memory)
-    function showContactDetails(){const modalBody=document.getElementById('modalBody');modalBody.innerHTML=`
+<script>
+  // === Web3Forms submission ===
+  (function () {
+    const form = document.getElementById('contactForm');
+    const statusEl = document.getElementById('formStatus');
+    const WEB3FORMS_ACCESS_KEY = 'REPLACE_WITH_YOUR_WEB3FORMS_KEY'; // ← replace with your real key
+
+    if (!form) return;
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      statusEl.style.color = '';
+      statusEl.textContent = 'Sending...';
+
+      try {
+        const data = new FormData(form);
+        data.append('access_key', WEB3FORMS_ACCESS_KEY);
+
+        // Block obvious bots
+        if (data.get('botcheck')) {
+          statusEl.style.color = 'red';
+          statusEl.textContent = 'Blocked by spam protection.';
+          return;
+        }
+
+        const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: data });
+        const json = await res.json();
+
+        if (json.success) {
+          statusEl.style.color = 'green';
+          statusEl.textContent = '✅ Thanks! Your message was sent successfully.';
+          form.reset();
+        } else {
+          statusEl.style.color = 'red';
+          statusEl.textContent = '⚠️ Something went wrong: ' + (json.message || 'Please try again.');
+        }
+      } catch (err) {
+        statusEl.style.color = 'red';
+        statusEl.textContent = '⚠️ Network error. Please try again.';
+      }
+    });
+  })();
+
+  // Smooth scroll helper
+  function scrollToSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Modal helpers
+  function openModal() {
+    const m = document.getElementById('detailModal');
+    if (m) { m.style.display = 'block'; document.body.style.overflow = 'hidden'; }
+  }
+  function closeModal() {
+    const m = document.getElementById('detailModal');
+    if (m) { m.style.display = 'none'; document.body.style.overflow = 'auto'; }
+  }
+
+  // Contact details (fixed email + LinkedIn URL)
+  function showContactDetails() {
+    const modalBody = document.getElementById('modalBody');
+    if (!modalBody) return;
+    modalBody.innerHTML = `
       <div class="modal-header">
         <h2 id="modalTitle" class="modal-title">Contact Information</h2>
         <p class="modal-subtitle">Let's connect and discuss opportunities</p>
       </div>
       <div class="modal-body">
         <h3>Professional Contact</h3>
-        <p><strong>📧 Email:</strong> <a href="mailto:vyanamandrav2023@my.fit.edu">vyanamandrav2023@my.fit.edu</a></p>
-        <p><strong>💼 LinkedIn:</strong> <a href="https://www.linkedin.com/in/vaishnavi-yanamandra-66410a152/" target="_blank">vaishnavi-yanamandra</a></p>
-        <p><strong>💻 GitHub:</strong> <a href="https://github.com/VAISHNAVI549" target="_blank">VAISHNAVI549</a></p>
+        <p><strong>📧 Email:</strong> <a href="mailto:vyanamanadrav2023@my.fit.edu">vyanamanadrav2023@my.fit.edu</a></p>
+        <p><strong>💼 LinkedIn:</strong> <a href="https://www.linkedin.com/in/vaishnavi-yanamandra-66410a152/" target="_blank" rel="noopener noreferrer">vaishnavi-yanamandra-venkata-sai</a></p>
+        <p><strong>💻 GitHub:</strong> <a href="https://github.com/VAISHNAVI549" target="_blank" rel="noopener noreferrer">VAISHNAVI549</a></p>
         <h3>Location & Availability</h3>
         <p><strong>📍 Current Location:</strong> United States</p>
         <p><strong>🌐 Work Preference:</strong> Open to remote, hybrid, and on-site opportunities</p>
@@ -703,209 +805,43 @@
           <li><strong>For Technical Discussions:</strong> GitHub or Email</li>
           <li><strong>For Quick Questions:</strong> LinkedIn messaging</li>
         </ul>
-      </div>`;openModal();}
+      </div>`;
+    openModal();
+  }
 
-    // Education details
-    function showEducationDetails(level){const modalBody=document.getElementById('modalBody');let content='';switch(level){
-      case 'masters':content=`
-        <div class="modal-header">
-          <h2 class="modal-title">Master of Science in Computer Information Systems</h2>
-          <p class="modal-subtitle">Florida Institute of Technology, Melbourne, FL | Aug 2023 – Dec 2024</p>
-        </div>
-        <div class="modal-body">
-          <div class="gpa" style="font-size:1.1rem;margin-bottom:1rem">🎓 GPA: 3.90/4.0</div>
-          <h3>Key Coursework</h3>
-          <ul><li>Advanced Database Systems & Data Warehousing</li><li>Cloud Computing & Distributed Systems</li><li>Software Engineering & System Design</li><li>Data Mining & Analytics</li><li>Machine Learning Applications</li><li>Enterprise Architecture & Integration</li></ul>
-          <h3>Major Projects</h3>
-          <ul><li><strong>Real Estate Market Intelligence:</strong> 20‑year data analysis with ARIMA forecasting</li><li><strong>Cloud Data Pipeline:</strong> AWS‑based ETL system for academic research</li><li><strong>ML Model Deployment:</strong> End‑to‑end machine learning pipeline</li></ul>
-          <h3>Achievements</h3>
-          <ul><li>🏆 Student of the Year Award (2024–2025)</li><li>📚 Dean's List multiple semesters</li><li>🤝 Active in tech student organizations</li></ul>
-          <div class="tech-stack"><span class="tech-item">Data Systems</span><span class="tech-item">Cloud Computing</span><span class="tech-item">Software Engineering</span><span class="tech-item">Analytics</span></div>
-        </div>`;break;
-      case 'bachelors':content=`
-        <div class="modal-header">
-          <h2 class="modal-title">Bachelor of Technology in Information Technology</h2>
-          <p class="modal-subtitle">CMR Technical Campus – JNTU, Hyderabad, India | 2017 – 2021</p>
-        </div>
-        <div class="modal-body">
-          <h3>Core Subjects</h3>
-          <ul><li>Programming Fundamentals (C, C++, Java, Python)</li><li>Database Management Systems (DBMS)</li><li>Software Engineering & Project Management</li><li>Computer Networks & Communication</li><li>Operating Systems</li><li>Web Technologies & Development</li><li>Data Structures & Algorithms</li><li>Mathematics & Statistics</li><li>Computer Hardware (Basic Architecture)</li><li>Front‑end Development Technologies</li></ul>
-          <h3>Key Projects</h3>
-          <ul><li><strong>Student Management System:</strong> Full‑stack web application</li><li><strong>Mobile App Development:</strong> Android application for campus services</li><li><strong>Database Design Project:</strong> Comprehensive DBMS implementation</li></ul>
-          <h3>Extracurricular Activities</h3>
-          <ul><li>🎵 Cultural committee member – organized music performances</li><li>🏆 Coding competitions and hackathons</li><li>📚 Technical society member – workshops</li></ul>
-          <div class="tech-stack"><span class="tech-item">C/C++</span><span class="tech-item">Java</span><span class="tech-item">Python</span><span class="tech-item">DBMS</span><span class="tech-item">Web Development</span><span class="tech-item">Operating Systems</span></div>
-        </div>`;break;
-      case 'school':content=`
-        <div class="modal-header">
-          <h2 class="modal-title">High School Education</h2>
-          <p class="modal-subtitle">Triveni Talent School, Hyderabad, Telangana, India | 2015 – 2017</p>
-        </div>
-        <div class="modal-body">
-          <h3>Academic Focus</h3>
-          <ul><li><strong>Mathematics:</strong> Advanced calculus and statistics</li><li><strong>Physics:</strong> Electronics and CS fundamentals</li><li><strong>Chemistry:</strong> Analytical and computational chemistry</li><li><strong>Computer Science:</strong> Programming basics and logic</li></ul>
-          <h3>Achievements & Activities</h3>
-          <ul><li>🎵 Carnatic Classical Music performer</li><li>🏆 Academic excellence in math & science</li><li>🎭 Debates, hosting, cultural programs</li></ul>
-          <h3>Leadership & Skills Developed</h3>
-          <ul><li>Event hosting and public speaking</li><li>Team collaboration</li><li>Creative problem‑solving</li></ul>
-          <div class="tech-stack"><span class="tech-item">Mathematics</span><span class="tech-item">Science</span><span class="tech-item">Music</span><span class="tech-item">Leadership</span></div>
-        </div>`;break;}
-      modalBody.innerHTML=content;openModal();}
+  // Progressive enhancements
+  document.addEventListener('DOMContentLoaded', () => {
+    // Fade-in on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-    // Experience details
-    function showExperienceDetails(company){const modalBody=document.getElementById('modalBody');let content='';switch(company){
-      case 'sineris':content=`
-        <div class="modal-header"><h2 class="modal-title">Data Engineer – Sineris Web Services</h2><p class="modal-subtitle">Orlando, FL | Mar 2025 – Present</p></div>
-        <div class="modal-body">
-          <h3>Key Responsibilities</h3>
-          <ul><li>Developed scalable components in Python (OOP)</li><li>Engineered cloud‑native ETL with AWS Glue, Lambda, S3, Airflow</li><li>Applied distributed programming for large‑scale processing</li></ul>
-          <h3>Technical Achievements</h3>
-          <ul><li>Containerized microservices with FastAPI, Docker, Kubernetes</li><li>Integrated CI/CD pipelines</li><li>Integrated predictive analytics into production</li></ul>
-          <h3>Impact & Results</h3>
-          <ul><li>Improved reliability and performance</li><li>Enhanced software quality and accuracy</li><li>Streamlined deployments via CI/CD</li></ul>
-          <div class="tech-stack"><span class="tech-item">Python</span><span class="tech-item">AWS Glue</span><span class="tech-item">Lambda</span><span class="tech-item">S3</span><span class="tech-item">Airflow</span><span class="tech-item">FastAPI</span><span class="tech-item">Docker</span><span class="tech-item">Kubernetes</span></div>
-        </div>`;break;
-      case 'adp':content=`
-        <div class="modal-header"><h2 class="modal-title">Data Engineer – ADP Inc.</h2><p class="modal-subtitle">Hyderabad, India | Feb 2021 – Aug 2023</p></div>
-        <div class="modal-body">
-          <h3>Key Responsibilities</h3>
-          <ul><li>Led migration of payroll/HR data systems</li><li>Moved on‑prem Oracle to AWS using Java (OOP)</li><li>Built transformation apps for multi‑TB datasets</li></ul>
-          <h3>Technical Achievements</h3>
-          <ul><li>Used S3, Glue, Redshift, EMR, Kinesis</li><li>Automation tools and migration frameworks</li><li>Infra as code with Terraform</li></ul>
-          <h3>Impact & Results</h3>
-          <ul><li>Reduced timelines by 20%</li><li>Maintained 99% accuracy across 50+ clients</li><li>Implemented robust error handling & security</li></ul>
-          <div class="tech-stack"><span class="tech-item">Java</span><span class="tech-item">SQL</span><span class="tech-item">Python</span><span class="tech-item">Spark</span><span class="tech-item">AWS</span><span class="tech-item">Oracle</span><span class="tech-item">Terraform</span></div>
-        </div>`;break;
-      case 'epsilon':content=`
-        <div class="modal-header"><h2 class="modal-title">Data Intern – Epsilon Pvt Ltd</h2><p class="modal-subtitle">Hyderabad, India | Jan 2020 – Dec 2020</p></div>
-        <div class="modal-body">
-          <h3>Key Responsibilities</h3>
-          <ul><li>Built SQL/Python‑based ETL apps</li><li>Implemented OOP and data quality checks</li><li>Contributed across SDLC</li></ul>
-          <h3>Projects & Contributions</h3>
-          <ul><li>Dashboard connectivity & KPI reporting</li><li>Reusable components for visualization</li><li>Worked with marketing data quality</li></ul>
-          <div class="tech-stack"><span class="tech-item">SQL</span><span class="tech-item">Python</span><span class="tech-item">ETL</span><span class="tech-item">Power BI</span></div>
-        </div>`;break;}
-      modalBody.innerHTML=content;openModal();}
+    // Back to top button visibility + action
+    const backToTopButton = document.getElementById('backToTop');
+    if (backToTopButton) {
+      window.addEventListener('scroll', () => {
+        backToTopButton.style.display = window.scrollY > 300 ? 'block' : 'none';
+      });
+      backToTopButton.addEventListener('click', () => scrollToSection('home'));
+    }
 
-    // Project details
-    function showProjectDetails(project){const modalBody=document.getElementById('modalBody');let content='';switch(project){
-      case 'hemoplus':content=`
-        <div class="modal-header"><h2 class="modal-title">HemoPlus – Blood Donation Network</h2><p class="modal-subtitle">Android Development Project | 2023</p></div>
-        <div class="modal-body">
-          <h3>Overview</h3>
-          <p>Comprehensive Android app bridging donors and recipients with real‑time matching and location services.</p>
-          <h3>Key Features</h3>
-          <ul><li>Real‑time donor‑recipient matching</li><li>Emergency alerts</li><li>GPS for nearest centers</li><li>Donor management</li><li>Hospital integrations</li></ul>
-          <h3>Implementation</h3>
-          <ul><li>Android + Material Design</li><li>Backend APIs for users/matching</li><li>Realtime DB and notifications</li><li>Google Maps API</li><li>Firebase auth & messaging</li></ul>
-          <div class="tech-stack"><span class="tech-item">Java</span><span class="tech-item">Android SDK</span><span class="tech-item">Firebase</span><span class="tech-item">Google Maps API</span><span class="tech-item">SQLite</span><span class="tech-item">REST</span></div>
-        </div>`;break;
-      case 'realestate':content=`
-        <div class="modal-header"><h2 class="modal-title">Real Estate Market Intelligence</h2><p class="modal-subtitle">Data Science Project | 2024</p></div>
-        <div class="modal-body">
-          <h3>Overview</h3>
-          <p>Processes 20 years of real estate data for insights and forecasting.</p>
-          <h3>Features</h3>
-          <ul><li>Historical analysis</li><li>ARIMA forecasting (~85% accuracy)</li><li>Interactive dashboards</li><li>Segmentation by region/type/price</li></ul>
-          <h3>Tech</h3>
-          <ul><li>R & Python</li><li>ARIMA time series</li><li>SQL storage</li><li>Automated pipelines with error handling</li><li>Matplotlib/Plotly visuals</li></ul>
-          <div class="tech-stack"><span class="tech-item">R</span><span class="tech-item">Python</span><span class="tech-item">SQL</span><span class="tech-item">ARIMA</span><span class="tech-item">Pandas</span><span class="tech-item">Matplotlib</span><span class="tech-item">Plotly</span></div>
-        </div>`;break;}
-      modalBody.innerHTML=content;openModal();}
-
-    // Achievement details + certificate links
-    function showAchievementDetails(achievement){const modalBody=document.getElementById('modalBody');let content='';switch(achievement){
-      case 'aws':content=`
-        <div class="modal-header"><h2 class="modal-title">AWS Certified Data Engineer</h2><p class="modal-subtitle">Amazon Web Services | 2024</p></div>
-        <div class="modal-body">
-          <h3>Overview</h3><p>This certification validates comprehensive understanding of core AWS services and the ability to design, build, secure, and maintain analytics solutions on AWS.</p>
-          <h3>Skills Validated</h3><ul><li>Designing and implementing data pipelines</li><li>Managing data lifecycle and data storage solutions (S3, Redshift, DynamoDB)</li><li>Automating data processing with services like Glue and Lambda</li><li>Ensuring data security and compliance</li><li>Monitoring and optimizing data platforms</li></ul>
-        </div>`;break;
-      case 'student':content=`
-        <div class="modal-header"><h2 class="modal-title">Student of the Year Award</h2><p class="modal-subtitle">Florida Institute of Technology | 2024–2025</p></div>
-        <div class="modal-body">
-          <h3>Recognition</h3><p>Awarded for outstanding academic excellence, leadership within the university community, and significant contributions to student life and research projects.</p>
-          <h3>Criteria</h3><ul><li>Maintaining a high GPA (3.90/4.0)</li><li>Active leadership roles in student organizations</li><li>Positive impact on the campus community</li><li>Contributions to academic research and projects</li></ul>
-        </div>`;break;
-      case 'nastronomy':content=`
-        <div class="modal-header"><h2 class="modal-title">NASTRONOMY Emerging Force Award</h2><p class="modal-subtitle">ADP Inc. | 2023</p></div>
-        <div class="modal-body">
-          <h3>Recognition</h3><p>Awarded to high-potential employees who demonstrate exceptional innovation, leadership, and a strong commitment to driving results. Recognized for contributions to the enterprise data migration projects.</p>
-          <h3>Achievements</h3><ul><li>Developing innovative solutions to complex data transformation challenges.</li><li>Proactively identifying and resolving critical project roadblocks.</li><li>Mentoring junior team members and fostering a collaborative environment.</li></ul>
-        </div>`;break;
-      case 'google':content=`
-        <div class="modal-header"><h2 class="modal-title">Google Data Analytics Capstone</h2><p class="modal-subtitle">Google | 2023</p></div>
-        <div class="modal-body">
-          <h3>Overview</h3><p>A comprehensive program covering the entire data analysis lifecycle, from data collection and cleaning to analysis, visualization, and reporting. The capstone project involved a real-world dataset to demonstrate practical skills.</p>
-          <h3>Skills Validated</h3><ul><li>Data cleaning and preparation (SQL, Spreadsheets)</li><li>Data analysis and visualization (R, Tableau)</li><li>Asking effective questions and defining metrics</li><li>Communicating insights through storytelling</li></ul>
-        </div>`;break;
-      case 'aws_analytics':content=`
-        <div class="modal-header"><h2 class="modal-title">Getting Started with Data Analytics on AWS</h2><p class="modal-subtitle">Amazon Web Services | 2024</p></div>
-        <div class="modal-body">
-          <h3>Overview</h3><p>An introductory certification covering the fundamentals of data analytics services on AWS, including data ingestion, storage, processing, and visualization.</p>
-          <h3>Skills Validated</h3><ul><li>Understanding of the AWS data analytics portfolio (Kinesis, S3, Redshift, QuickSight).</li><li>Building a basic data analytics pipeline on AWS.</li><li>Choosing appropriate services for different data analytics needs.</li></ul>
-        </div>`;break;
-      case 'python':content=`
-        <div class="modal-header"><h2 class="modal-title">Programming for Everybody (Getting Started with Python)</h2><p class="modal-subtitle">University of Michigan (Coursera) | 2022</p></div>
-        <div class="modal-body">
-          <h3>Overview</h3><p>A foundational course on Python programming, covering core concepts such as variables, conditional execution, functions, loops, and data structures.</p>
-          <h3>Skills Validated</h3><ul><li>Core Python 3 programming concepts.</li><li>Writing functions and using loops.</li><li>Working with fundamental data structures like strings, lists, and dictionaries.</li><li>Problem-solving with code.</li></ul>
-        </div>`;break;
-      case 'epam':content=`
-        <div class="modal-header"><h2 class="modal-title">Pre Education Program (PEP-2020)</h2><p class="modal-subtitle">EPAM Systems India Pvt Ltd | 2020</p></div>
-        <div class="modal-body">
-          <h3>Overview</h3><p>An intensive, industry-focused training program designed to bridge the gap between academic knowledge and professional software development practices.</p>
-          <h3>Topics Covered</h3><ul><li>Agile and Scrum methodologies</li><li>Version control with Git</li><li>Advanced Java programming concepts</li><li>Software testing and quality assurance</li><li>Introduction to DevOps and CI/CD</li></ul>
-        </div>`;break;}
-      modalBody.innerHTML=content;openModal();}
-      
-      document.addEventListener('DOMContentLoaded', () => {
-        // Fade-in animations on scroll
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-        // Back to top button visibility
-        const backToTopButton = document.getElementById('backToTop');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                backToTopButton.classList.add('visible');
-            } else {
-                backToTopButton.classList.remove('visible');
-            }
-        });
-        backToTopButton.addEventListener('click', () => scrollToSection('home'));
-
-        // Contact form submission
-        const contactForm = document.getElementById('contactForm');
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Thank you for your message! I will get back to you shortly.');
-            contactForm.reset();
-        });
-
-        // Modal closing logic
-        const modal = document.getElementById('detailModal');
-        modal.addEventListener('click', (event) => {
-            if (event.target === modal) {
-                closeModal();
-            }
-        });
-
-        window.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && modal.style.display === 'block') {
-                closeModal();
-            }
-        });
-    });
-  </script>
+    // Modal close on overlay click + Esc
+    const modal = document.getElementById('detailModal');
+    if (modal) {
+      modal.addEventListener('click', (event) => {
+        if (event.target === modal) closeModal();
+      });
+      window.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && modal.style.display === 'block') closeModal();
+      });
+    }
+  });
+</script>
 </body>
 </html>
-
